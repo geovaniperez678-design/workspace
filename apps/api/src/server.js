@@ -1,4 +1,5 @@
 const path = require("path");
+const { execSync } = require("child_process");
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -48,6 +49,22 @@ app.use((err, req, res, next) => {
   res.status(status).json({ error: err.message || "erro_interno" });
 });
 
+function ensureDatabaseMigrations() {
+  if (process.env.SKIP_PRISMA_MIGRATE === "true") {
+    console.log("[prisma] SKIP_PRISMA_MIGRATE habilitado, pulando migrate deploy.");
+    return;
+  }
+  try {
+    execSync("npx prisma migrate deploy", {
+      cwd: path.join(__dirname, ".."),
+      stdio: "inherit",
+    });
+  } catch (error) {
+    console.error("[prisma] Erro ao aplicar migrations automaticamente.");
+    throw error;
+  }
+}
+
 async function ensureSeedOwnerUser() {
   const ownerEmail = process.env.SEED_OWNER_EMAIL || "owner@allokapri.com";
   const ownerPassword = process.env.SEED_OWNER_PASSWORD || "Allokapri123!";
@@ -96,6 +113,7 @@ async function ensureSeedOwnerUser() {
 
 async function start() {
   try {
+    ensureDatabaseMigrations();
     await ensureSeedOwnerUser();
     app.listen(PORT, () => {
       console.log(`API rodando em http://localhost:${PORT}/api`);

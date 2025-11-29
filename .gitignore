@@ -1,1 +1,12 @@
+# Node dependencies
 node_modules
+
+# Environment & local databases
+.env
+apps/api/.env
+apps/api/dev.db
+apps/api/prisma/*.db
+apps/api/prisma/prisma/*.db
+
+# Misc
+testfile
