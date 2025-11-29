@@ -1,0 +1,153 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum TaskStatus {
+  TODO
+  DOING
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(VIEWER)
+  isActive     Boolean   @default(true)
+  sessions     Session[]
+  driveFolders DriveFolder[]
+  driveFiles   DriveFile[]
+  drivePermissions DrivePermission[]
+  activityLogs ActivityLog[]
+  documents   Document[]
+  events      Event[]
+  tasks       Task[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model DriveFolder {
+  id             String       @id @default(cuid())
+  name           String
+  parentFolderId String?
+  parentFolder   DriveFolder? @relation("FolderToFolder", fields: [parentFolderId], references: [id])
+  children       DriveFolder[] @relation("FolderToFolder")
+  ownerId        String
+  owner          User         @relation(fields: [ownerId], references: [id])
+  deleted        Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  files          DriveFile[]
+  permissions    DrivePermission[]
+}
+
+model DriveFile {
+  id        String       @id @default(cuid())
+  name      String
+  size      Int
+  type      String
+  folderId  String?
+  folder    DriveFolder? @relation(fields: [folderId], references: [id])
+  ownerId   String
+  owner     User         @relation(fields: [ownerId], references: [id])
+  deleted   Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  versions  DriveVersion[]
+  permissions DrivePermission[]
+}
+
+model DrivePermission {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  fileId    String?
+  file      DriveFile?  @relation(fields: [fileId], references: [id])
+  folderId  String?
+  folder    DriveFolder? @relation(fields: [folderId], references: [id])
+  role      Role
+}
+
+model DriveVersion {
+  id            String   @id @default(cuid())
+  fileId        String
+  file          DriveFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  versionNumber Int
+  metadata      Json
+  createdAt     DateTime @default(now())
+}
+
+model ActivityLog {
+  id         String  @id @default(cuid())
+  userId     String
+  user       User    @relation(fields: [userId], references: [id])
+  entityType String
+  entityId   String
+  action     String
+  metadata   Json
+  createdAt  DateTime @default(now())
+}
+
+model Task {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus    @default(TODO)
+  priority    TaskPriority  @default(MEDIUM)
+  dueDate     DateTime?
+  ownerId     String
+  owner       User          @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([authorId])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}

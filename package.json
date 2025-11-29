@@ -1,0 +1,20 @@
+{
+  "name": "allokapri-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/frontend",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w api\" \"npm run dev -w frontend\"",
+    "dev:api": "npm run dev -w api",
+    "dev:frontend": "npm run dev -w frontend"
+  },
+  "devDependencies": {
+    "concurrently": "latest",
+    "turbo": "latest",
+    "typescript": "latest"
+  }
+}

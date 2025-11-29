@@ -1,0 +1,10 @@
+#root {
+  min-height: 100vh;
+  background: #020817;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
