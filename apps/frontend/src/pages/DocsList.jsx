@@ -40,10 +40,10 @@ export default function DocsList() {
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
         <div>
-          <h1 style={{ margin: 0 }}>Allokapri Docs</h1>
+          <h1 style={{ margin: 0 }}>Allokapri Documentos</h1>
           <p style={{ color: "#94a3b8", marginTop: "0.25rem" }}>Crie documentos colaborativos simples.</p>
         </div>
-        <Button onClick={() => navigate("/docs/new")}>Novo documento</Button>
+        <Button onClick={() => navigate("/documentos/novo")}>Novo documento</Button>
       </div>
 
       {isLoading ? (
@@ -55,7 +55,7 @@ export default function DocsList() {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
           {docs.map((doc) => (
-            <Card key={doc.id} style={{ cursor: "pointer" }} onClick={() => navigate(`/docs/${doc.id}`)}>
+            <Card key={doc.id} style={{ cursor: "pointer" }} onClick={() => navigate(`/documentos/${doc.id}`)}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
                   <h2 style={{ margin: 0, fontSize: "1.1rem" }}>{doc.title}</h2>

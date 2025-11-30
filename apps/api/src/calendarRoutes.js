@@ -28,6 +28,21 @@ router.get("/events", async (req, res) => {
   }
 });
 
+router.get("/events/recent", async (req, res) => {
+  try {
+    const events = await prisma.event.findMany({
+      where: { authorId: req.user.id },
+      select: baseSelect,
+      orderBy: { date: "asc" },
+      take: 5,
+    });
+    res.json(events);
+  } catch (error) {
+    console.error("[calendar] erro ao listar recentes", error);
+    res.json([]);
+  }
+});
+
 router.post("/events", async (req, res) => {
   try {
     const { title, date, description } = req.body || {};

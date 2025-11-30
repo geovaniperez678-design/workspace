@@ -160,7 +160,7 @@ export default function TasksPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <h1 style={{ margin: 0 }}>Allokapri Tasks</h1>
+        <h1 style={{ margin: 0 }}>Allokapri Tarefas</h1>
         <p style={{ color: "#94a3b8", marginTop: "0.25rem" }}>Organize as suas tarefas pessoais no workspace.</p>
       </div>
 

@@ -45,12 +45,12 @@ const contentStyle = {
 };
 
 const navLinks = [
-  { label: "Hub", to: "/hub" },
+  { label: "Centro", to: "/centro" },
   { label: "Admin", to: "/admin" },
   { label: "Drive", to: "/drive" },
-  { label: "Docs", to: "/docs" },
-  { label: "Tasks", to: "/tasks" },
-  { label: "Calendar", to: "/calendar" },
+  { label: "Documentos", to: "/documentos" },
+  { label: "Tarefas", to: "/tarefas" },
+  { label: "Calendário", to: "/calendario" },
   { label: "Chat", to: "/chat" },
   { label: "Wiki", to: "/wiki" },
 ];
@@ -81,7 +81,7 @@ export default function AppLayout({ children }) {
   return (
     <div style={shellStyle}>
       <header style={topbarStyle}>
-        <Link to="/hub" style={{ color: "#fff", textDecoration: "none", fontWeight: 700, fontSize: "1rem" }}>
+        <Link to="/centro" style={{ color: "#fff", textDecoration: "none", fontWeight: 700, fontSize: "1rem" }}>
           Allokapri Workspace
         </Link>
         {rightContent}

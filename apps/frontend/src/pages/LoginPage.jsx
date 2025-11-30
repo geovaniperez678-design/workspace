@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/hub", { replace: true });
+      navigate("/centro", { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await login(email, password);
-      navigate("/hub", { replace: true });
+      navigate("/centro", { replace: true });
     } catch (err) {
       setError(err.message || "Credenciais inválidas");
     } finally {

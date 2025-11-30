@@ -12,5 +12,5 @@ export default function RoleGuard({ allowedRoles = [], children }) {
     return children;
   }
 
-  return <Navigate to="/hub" replace />;
+  return <Navigate to="/centro" replace />;
 }

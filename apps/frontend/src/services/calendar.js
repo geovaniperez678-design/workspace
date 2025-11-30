@@ -16,7 +16,7 @@ async function request(path, { method = "GET", token, body } = {}) {
 
   if (!response.ok) {
     const message = await response.text();
-    throw new Error(message || "Falha na API de Calendar");
+    throw new Error(message || "Falha na API de Calendário");
   }
 
   return response.json();

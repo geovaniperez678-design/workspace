@@ -14,7 +14,7 @@ function formatDateLabel(value) {
   });
 }
 
-export default function CalendarPage() {
+export default function CalendarioPage() {
   const { accessToken } = useAuth();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -97,7 +97,7 @@ export default function CalendarPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <h1 style={{ margin: 0 }}>Allokapri Calendar</h1>
+        <h1 style={{ margin: 0 }}>Allokapri Calendário</h1>
         <p style={{ color: "#94a3b8", marginTop: "0.25rem" }}>Agende compromissos e acompanhe seus eventos pessoais.</p>
       </div>
 

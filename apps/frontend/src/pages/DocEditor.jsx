@@ -56,10 +56,8 @@ export default function DocEditor() {
         body: JSON.stringify({ title, content }),
       });
       if (!response.ok) throw new Error("Falha ao salvar documento");
-      const data = await response.json();
-      if (isNew) {
-        navigate(`/docs/${data.id}`);
-      }
+      await response.json();
+      navigate("/documentos", { replace: true });
     } catch (err) {
       console.error("[docs] erro ao salvar", err);
       setError("Erro ao salvar documento.");
@@ -78,7 +76,7 @@ export default function DocEditor() {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (!response.ok) throw new Error("Falha ao excluir documento");
-      navigate("/docs");
+      navigate("/documentos");
     } catch (err) {
       console.error("[docs] erro ao excluir", err);
       setError("Erro ao excluir documento.");

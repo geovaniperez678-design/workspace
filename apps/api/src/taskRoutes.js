@@ -62,6 +62,28 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/recent", async (req, res) => {
+  try {
+    const tasks = await prisma.task.findMany({
+      where: { ownerId: req.user.id },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        priority: true,
+        updatedAt: true,
+        dueDate: true,
+      },
+      orderBy: { updatedAt: "desc" },
+      take: 5,
+    });
+    res.json(tasks);
+  } catch (error) {
+    console.error("[tasks] erro ao carregar recentes", error);
+    res.json([]);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { title, description, status, priority, dueDate } = req.body || {};
